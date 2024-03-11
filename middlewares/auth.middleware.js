@@ -9,6 +9,7 @@ const auth = async(req, res, next)=>{
 
             if(decode){
                 req.body.userID = decode.userID
+                
                 next();
             }else{
                 res.json({msg:"you are not authorized"})
