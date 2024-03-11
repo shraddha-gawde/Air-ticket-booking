@@ -17,7 +17,7 @@ flightRouter.get("/flights",async(req, res)=>{
 
 flightRouter.get("/:id",async(req, res)=>{
     try{
-        const flightID = req.params.id
+        
         const flight = await flightModel.findById(req.params.id)
         console.log(req.params.id)
         console.log(flight)
@@ -43,13 +43,25 @@ flightRouter.post("/create", auth, async(req, res)=>{
     }
 })
 
-flightRouter.put("/:id", auth, async(req, res)=>{
-    const id = rwq.param
+flightRouter.patch("/:id", auth, async(req, res)=>{
+    const id = req.params.id
     const payload = req.body
     try{
-        const flight = new flightModel(payload)
+        const flight = await flightModel.findByIdAndUpdate(id, payload)
         await flight.save()
-        res.status(201).json({msg:"new flight details added", flight_data: flight})
+        res.status(204).json({msg:"flight details has been updated", flight_data: payload})
+    }
+    catch(err){
+        res.status(400).json({error: err})
+    }
+})
+
+flightRouter.delete("/:id", auth, async(req, res)=>{
+    const id = req.params.id
+    try{
+        const flight = await flightModel.findByIdAndDelete(id)
+
+        res.status(202).json({msg:"flight has been deleted"})
     }
     catch(err){
         res.status(400).json({error: err})
