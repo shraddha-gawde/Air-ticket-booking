@@ -5,6 +5,7 @@ const { userModel } = require("../models/user.models")
 require("dotenv").config()
 const userRouter = express.Router();
 
+
 userRouter.post("/register", async(req, res)=>{
     const {name, email, password} = req.body
 
@@ -24,7 +25,6 @@ userRouter.post("/register", async(req, res)=>{
         res.status(400).json({msg:"error occured while registed", error: err})
     }
 })
-
 
 
 userRouter.post("/login", async(req, res)=>{
